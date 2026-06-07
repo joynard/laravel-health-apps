@@ -47,9 +47,10 @@
                 </div>
             </div>
         </div>
-        <div style="display: flex; gap: 20px;">
+        <div class="mt-4" style="display: flex; gap: 20px;">
             <a href="{{ route('menu.page', 'konsultasi') }}" class="btn btn-primary btn-lg">Konsultasi Online</a>
             <a href="{{ route('menu.page', 'janji') }}" class="btn btn-secondary btn-lg">Buat Janji Temu Dokter</a>
+            <a href="{{ route('categories.index') }}" class="btn btn-success btn-lg">Dashboard</a>
         </div>
     </div>
 </body>
