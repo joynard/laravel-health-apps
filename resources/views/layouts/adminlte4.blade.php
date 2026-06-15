@@ -88,39 +88,59 @@
               </a>
             </li>
             <!--end::Navbar Search-->
-            <!--begin::User Menu Dropdown-->
-            <li class="nav-item dropdown user-menu">
-              <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                <img
-                  src="https://my.ubaya.ac.id/img/mhs/160423232_m.jpg"
-                  class="user-image rounded-circle shadow"
-                  alt="User Image"
-                />
-                <span class="d-none d-md-inline">Alexander Lapod</span>
-              </a>
-              <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                <!--begin::User Image-->
-                <li class="user-header text-bg-primary">
-                  <img
-                    src="https://my.ubaya.ac.id/img/mhs/160423232_m.jpg"
-                    class="rounded-circle shadow"
-                    alt="User Image"
-                  />
-                  <p>
-                    Alexander Lapod - Web Developer
-                    <small>Member since Nov. 2023</small>
-                  </p>
+            @guest
+                @if (Route::has('login'))
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                    </li>
+                @endif
+
+                @if (Route::has('register'))
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                    </li>
+                @endif
+            @else
+                <!--begin::User Menu Dropdown-->
+                <li class="nav-item dropdown user-menu">
+                  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                    <img
+                      src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=0D8ABC&color=fff"
+                      class="user-image rounded-circle shadow"
+                      alt="User Image"
+                    />
+                    <span class="d-none d-md-inline">{{ Auth::user()->name }}</span>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
+                    <!--begin::User Image-->
+                    <li class="user-header text-bg-primary">
+                      <img
+                        src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=0D8ABC&color=fff"
+                        class="rounded-circle shadow"
+                        alt="User Image"
+                      />
+                      <p>
+                        {{ Auth::user()->name }} - {{ ucfirst(Auth::user()->role) }}
+                        <small>Registered since {{ Auth::user()->created_at->format('M Y') }}</small>
+                      </p>
+                    </li>
+                    <!--end::User Image-->
+                    <!--begin::Menu Footer-->
+                    <li class="user-footer">
+                      <a href="#" class="btn btn-default btn-flat">Profile</a>
+                      <a class="btn btn-default btn-flat float-end" href="{{ route('logout') }}"
+                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                          {{ __('Sign out') }}
+                      </a>
+                      <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                          @csrf
+                      </form>
+                    </li>
+                    <!--end::Menu Footer-->
+                  </ul>
                 </li>
-                <!--end::User Image-->
-                <!--begin::Menu Footer-->
-                <li class="user-footer">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
-                  <a href="#" class="btn btn-default btn-flat float-end">Sign out</a>
-                </li>
-                <!--end::Menu Footer-->
-              </ul>
-            </li>
-            <!--end::User Menu Dropdown-->
+                <!--end::User Menu Dropdown-->
+            @endguest
           </ul>
           <!--end::End Navbar Links-->
         </div>
@@ -141,7 +161,7 @@
             />
             <!--end::Brand Image-->
             <!--begin::Brand Text-->
-            <span class="brand-text fw-light">Website Kesehatan</span>
+            <span class="brand-text fw-light">Care Admin</span>
             <!--end::Brand Text-->
           </a>
           <!--end::Brand Link-->
