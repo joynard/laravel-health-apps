@@ -23,17 +23,23 @@ use Illuminate\Support\Facades\Route;
 
 Route::resource('photos', PhotoController::class);
 
-Route::resource('services', ServiceController::class);
-Route::post('/ajax/service/getEditForm', [ServiceController::class, 'getEditForm'])->name('service.getEditForm');
-Route::post('/ajax/service/getEditFormB', [ServiceController::class, 'getEditFormB'])->name('service.getEditFormB');
-Route::post('/ajax/service/saveDataUpdate', [ServiceController::class, 'saveDataUpdate'])->name('service.saveDataUpdate');
-Route::post('/ajax/service/deleteData', [ServiceController::class, 'deleteData'])->name('service.deleteData');
+Route::middleware(['auth'])->group(function () {
+    Route::resource('services', ServiceController::class);
+    Route::post('/ajax/service/getEditForm', [ServiceController::class, 'getEditForm'])->name('service.getEditForm');
+    Route::post('/ajax/service/getEditFormB', [ServiceController::class, 'getEditFormB'])->name('service.getEditFormB');
+    Route::post('/ajax/service/saveDataUpdate', [ServiceController::class, 'saveDataUpdate'])->name('service.saveDataUpdate');
+    Route::post('/ajax/service/deleteData', [ServiceController::class, 'deleteData'])->name('service.deleteData');
 
-Route::resource('categories', CategoryController::class);
-Route::post('/ajax/category/getEditForm', [CategoryController::class, 'getEditForm'])->name('category.getEditForm');
-Route::post('/ajax/category/getEditFormB', [CategoryController::class, 'getEditFormB'])->name('category.getEditFormB');
-Route::post('/ajax/category/saveDataUpdate', [CategoryController::class, 'saveDataUpdate'])->name('category.saveDataUpdate');
-Route::post('/ajax/category/deleteData', [CategoryController::class, 'deleteData'])->name('category.deleteData');
+    Route::resource('categories', CategoryController::class);
+    Route::post('/ajax/category/getEditForm', [CategoryController::class, 'getEditForm'])->name('category.getEditForm');
+    Route::post('/ajax/category/getEditFormB', [CategoryController::class, 'getEditFormB'])->name('category.getEditFormB');
+    Route::post('/ajax/category/saveDataUpdate', [CategoryController::class, 'saveDataUpdate'])->name('category.saveDataUpdate');
+    Route::post('/ajax/category/deleteData', [CategoryController::class, 'deleteData'])->name('category.deleteData');
+
+    Route::get('/category', function() {
+        return redirect()->route('categories.index');
+    });
+});
 
 Route::resource('unresources', UnresourceController::class);
 
@@ -97,3 +103,7 @@ Route::get('/admin/{admincat}', function($admincat){
         return "Halaman tidak ditemukan";
     }
 })->name('admin.page');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
