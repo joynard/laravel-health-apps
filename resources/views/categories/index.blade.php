@@ -65,6 +65,7 @@
                                     <i class="bi bi-pencil-fill me-1"></i>Edit Type B
                                 </a>
 
+                                @can('delete-permission', Auth::user())
                                 <form action="{{ route('categories.destroy', $category->id) }}" 
                                       method="POST" 
                                       class="d-inline">
@@ -80,6 +81,7 @@
                                 <a href="#" class="btn btn-sm btn-danger rounded-pill px-3" onclick="if(confirm('Are you sure to delete {{ $category->id }} - {{ $category->name }} ?')) deleteDataRemove({{ $category->id }}); return false;">
                                     <i class="bi bi-trash-fill me-1"></i>Delete without Reload
                                 </a>
+                                @endcan
                             </td>
                         </tr>
                         @endforeach

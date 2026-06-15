@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
@@ -88,6 +89,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        $this->authorize('delete-permission', Auth::user());
         try {
             $category->delete();
             return redirect()->route('categories.index')->with('success', 'Data kategori berhasil dihapus.');
@@ -133,6 +135,7 @@ class CategoryController extends Controller
 
     public function deleteData(Request $request)
     {
+        $this->authorize('delete-permission', Auth::user());
         $id = $request->id;
         $data = Category::find($id);
         $data->delete();
